@@ -105,7 +105,7 @@ try{
        
     // Then Finally Create College Details 
     const collegeDetails = await collegeModel.create( requestBody );
-    return res.status(201).send({ status : true , data : collegeDetails });
+    return res.status(201).send({ status : true , msg:"College Successfully Created" ,data : collegeDetails });
 }
 catch (err) {
     return res.status(500).send({ status: false, err: err.message });

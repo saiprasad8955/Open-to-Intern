@@ -107,7 +107,7 @@ const internDetails= async function (req,res){
     }
 
     const internDetails = await internModel.create( requestBody );
-    return res.status(201).send({ status : true , data : internDetails }) 
+    return res.status(201).send({ status : true , msg:"Applied For Internship Successfully",data : internDetails }) 
 }
 
 module.exports = {internDetails};
