@@ -10,9 +10,15 @@ const isValid = function (value){
     }
 
 const isValidObjectId = function (value){
- return mongoose.Schema.Types.ObjectId.isValid(value)
+ return mongoose.Types.ObjectId.isValid(value)
 }
 
+const isValidName = function (value) {
+    if(!(value === value.toLowerCase())) {
+        return false
+    }
+    return true
+}
 
 const internDetails= async function (req,res){
 
@@ -27,13 +33,23 @@ const internDetails= async function (req,res){
     // Object Destructing
     const { name, email, mobile, collegeId } = requestBody;
     
-    // Validate the name of intern
+    // Validate the name of College
     if(!isValid(name)){
         return res.status(400).send({ status:false, message:"Please Enter the College Details" }) 
     }
 
+    // Name Should be in Lowercase
+    if(!isValidName(name)) {
+        return res.status(400).send({ status: false, msg: "Name should be in  lowercase"})
+    }
+
+    // Validate the name of intern
+    if(!isValid(email)){
+        return res.status(400).send({ status:false, message:"Please Enter the Email" }) 
+    }
+
     // Validate the Email ID
-    if(!validator.isEmail(email)){
+    if(!validator.validate(email)){
         return res.status(400).send({ status:false, message:"Please Enter a Valid Email" }) 
     }
 

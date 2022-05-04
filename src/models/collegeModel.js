@@ -4,12 +4,12 @@ const collegeSchema = new mongoose.Schema({
 name:{
     type:String,
     unique:true,
-    required:"Name is Required",
+    required:"College Name is Required",
     trim:true
 },
 fullName:{
     type:String,
-    required:"College Name is Required",
+    required:"Full Name is Required",
     trim:true
 },
 logoLink:{ 
