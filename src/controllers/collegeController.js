@@ -169,7 +169,7 @@ const getCollegeDetails = async (req ,res) => {
     }catch(err){
         return res.status(500).send({ status:false, err: err.message })
     }
-
+}
 
 module.exports= {collegeDetails,getCollegeDetails};
 
