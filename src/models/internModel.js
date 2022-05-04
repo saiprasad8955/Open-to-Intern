@@ -17,7 +17,7 @@ const internSchema = new mongoose.Schema({
       validator: function (value) {
         return validator.isEmail(value);
       },
-      msg: "Please enter a valid email",
+      message: "Please enter a valid email",
       isAsync: false,
     },
   },
@@ -30,7 +30,7 @@ const internSchema = new mongoose.Schema({
       validator: function (value) {
       return /^\d{10}$/.test(value);
       },
-      msg: "Please enter 10 digit number",
+      message: "Please enter 10 digit number",
       isAsync: false
     },
   },
