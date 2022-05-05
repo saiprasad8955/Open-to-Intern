@@ -114,7 +114,7 @@ catch (err) {
 
 const getCollegeDetails = async (req ,res) => {
     try{
-        //Extract Query Params into 
+        //Extract Query Params into a Variable
         const queryParams = req.query
         
         // Destruct CollegeName from QueryParams
@@ -171,7 +171,7 @@ const getCollegeDetails = async (req ,res) => {
     }
 }
 
-module.exports= {collegeDetails,getCollegeDetails};
+module.exports = {collegeDetails,getCollegeDetails};
 
 
 

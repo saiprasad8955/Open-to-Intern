@@ -2,7 +2,7 @@ const internModel = require("../models/internModel.js");
 const validator = require("validator");
 const mongoose = require("mongoose");
 const collegeModel = require("../models/collegeModel.js");
-const internModel = require("../models/internModel.js")
+
 
 
 const isValid = function (value){
@@ -58,18 +58,23 @@ const internDetails= async function (req,res){
     }
 
     // Validate the Email ID
-    if(!validator.validate(email)){
+    if(!validator.isEmail(email)){
         return res.status(400).send({ status:false, message:"Please Enter a Valid Email" }) 
     }
    
+    // Validate the Email of intern
+    if(! isValid(mobile)){
+        return res.status(400).send({ status:false, message:"Please Enter the Mobile Number" }) 
+    }
+
     // Validate the Mobile Number
-    if(! /^([+]\d{2}[ ])?\d{10}$/.test(mobile)){
+    if(! (/^([+]\d{2}[ ])?\d{10}$/).test(mobile)){
         return res.status(400).send({ status:false, message:"Please Enter a Valid Mobile Number" }) 
     }
 
     // Check College Id is Valid or not 
     if(! collegeId){
-         return res.status(400).send({ status:false, message:"Please Enter a College ID" })
+         return res.status(400).send({ status:false, message:"Please Enter a College Name" })
     }
 
     // Validate the ObjectId
@@ -78,8 +83,8 @@ const internDetails= async function (req,res){
     }
 
     // Check if Wrong College Id Come then data exists or not
-    const wrongClgId = await collegeModel.findById(collegeId)
-    if(!wrongClgId){
+    const wrongClg = await collegeModel.findById(collegeName)
+    if(!wrongClg){
         return res.status(400).send( { status: false , message: 'College Does Not Exist With this CollegeId'})
     }
 
