@@ -11,18 +11,13 @@ const isValid = function (value){
     return true;
     }
 
-    const isValid2 = function(value) {
-        const dv = /[a-zA-Z]/;
-        if(typeof value !== 'string') return false
-        if(dv.test(value)=== false) return false
-        return true
-        }
-        
-
-const isValidObjectId = function (value){
- return mongoose.Types.ObjectId.isValid(value)
-}
-
+const isValid2 = function(value) {
+    const dv = /[a-zA-Z]/;
+    if(typeof value !== 'string') return false
+    if(dv.test(value)=== false) return false
+    return true
+    }
+       
 
 const internDetails = async function (req,res){
 
@@ -58,7 +53,8 @@ const internDetails = async function (req,res){
     }
 
     // Validate the Email ID
-    if(!validator.isEmail(email)){
+    let dv = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if(! dv.test(email)){
         return res.status(400).send({ status:false, message:"Please Enter a Valid Email" }) 
     }
    
@@ -83,9 +79,9 @@ const internDetails = async function (req,res){
     if ( duplicateEntries.length !== undefined && duplicateEntries.length > 0 ) {
 
         // Checking Duplicate Email
-        const isEmailUsed = await internModel.findOne({ email: email });
-        if (isEmailUsed.length !== null) {
-            return res.status(409).send({ status: false, msg: "Email already exists" });
+        const isEmailUsed = await internModel.find({ email: email });
+        if (isEmailUsed.length !== 0) {
+            return res.status(409).send({ status: false, msg: "Email Already exists" });
         }
         
         // Checking Duplicate Mobile    
@@ -102,18 +98,18 @@ const internDetails = async function (req,res){
 
     // Check that College Exists or not 
     let collegeData = await collegeModel.findOne( { name : collegeName } )
-
-    if (!collegeData) {
+   
+    if (! collegeData) {
         return res.status(404).send({ status: false, msg: "No College found With This Name , Check Name And Try Again" })
     }
 
-    const collegeId = collegeData._id
+    const collegeId = collegeData._id;
 
     // Finally the registration of intern is successful
-    let data = { name, mobile, email, collegeId, isDeleted }
+    let data = {  isDeleted , name, mobile, email, collegeId }
 
-    const internDetails = await internModel.create(data);
-    return res.status(201).send({ status : true , msg:"Applied For Internship Successfully",data : internDetails }) 
+    const internDetails = await internModel.create(data)
+    return res.status(201).send({ status : true , msg:"Applied For Internship Successfully", data : internDetails }) 
 }
 
 module.exports = {internDetails};

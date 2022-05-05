@@ -5,15 +5,15 @@ const internController = require("../controllers/internController.js")
 
 
 // Route For Post College Details
-router.post("/functionup/colleges",collegeController.collegeDetails);
+router.post("/functionup/colleges", collegeController.collegeDetails);
 
 
 // Route For Post intern Details
-router.post("/functionup/interns",internController.internDetails);
+router.post("/functionup/interns", internController.internDetails);
 
 
-// Route For intern Details
-router.get("functionup/collegeDetails",internController.internDetails);
+// Route For Fetching College Details With Interns Details
+router.get("/functionup/collegeDetails", collegeController.getCollegeDetails);
 
 
 module.exports = router;

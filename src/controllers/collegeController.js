@@ -1,5 +1,6 @@
 const { init } = require("../models/collegeModel.js");
 const collegeModel = require("../models/collegeModel.js");
+const internModel = require("../models/internModel.js");
 
 
 const isValid = function (value){
@@ -113,6 +114,7 @@ catch (err) {
 }
 }
 
+// For Fetching College Details
 const getCollegeDetails = async (req ,res) => {
     try{
 
@@ -120,7 +122,7 @@ const getCollegeDetails = async (req ,res) => {
         const queryParams = req.query
         
         // Destruct CollegeName from QueryParams
-        const {collegeName} = req.query
+        const { collegeName } = req.query
 
         // Check Query Params are coming or not
         if(! Object.keys(queryParams).length > 0){
@@ -134,7 +136,7 @@ const getCollegeDetails = async (req ,res) => {
 
         // Check College name is in Lowercase or not
         if(collegeName !== collegeName.toLowerCase()){
-            return res.status(400).send({ status : false , message : "Invalid College Abbreviation" });
+            return res.status(400).send({ status : false , message : "College Name Should Be in Lowercase" });
         }
 
         // College Name Must be a single word
@@ -143,8 +145,9 @@ const getCollegeDetails = async (req ,res) => {
         }
 
         // Check if name is Invalid Name
-        const college = await collegeModel.find({ name: collegeName }); 
-        if(!college) {
+        const college = await collegeModel.findOne({ name: collegeName }); 
+       
+        if(! college) {
             return res.status(404).send({ status : false , message : "College Not Found!!, Please Check With College Name" })
         }
 
@@ -152,7 +155,7 @@ const getCollegeDetails = async (req ,res) => {
         const collegeId = college._id
 
         const InternsInCollege = await internModel.find({ collegeId : collegeId }).select({ _id : 1, email: 1, name:1, mobile:1 })
-        
+                
         // Destructing Of Objects
         const { name, fullName, logoLink } = college;
 
@@ -166,7 +169,7 @@ const getCollegeDetails = async (req ,res) => {
         }
 
         // Final Send The Response
-        return res.status(200).send({ status : true , message: "College Details" , Data : finalData })
+        return res.status(200).send({ status : true , message: "College Details Fetched Successfully" , data : finalData })
     
     }catch(err){
         return res.status(500).send({ status:false, err: err.message })
