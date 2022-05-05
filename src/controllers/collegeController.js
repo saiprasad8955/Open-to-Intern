@@ -18,12 +18,10 @@ const isValid2 = function(value) {
 
 const collegeDetails = async function(req,res){
 try{
+
     // Store RequestBody data into requestBody
     const requestBody = req.body;
     
-    console.log(req);
-    console.log(requestBody);
-
     // Validate the Request Body
     if(! Object.keys(requestBody).length > 0) return res.status(400).send({status:false, message:"Please Enter the College Details"})
     
@@ -46,7 +44,7 @@ try{
         return res.status(400).send({ status: false, msg: "Name should be in lowercase"})
     }
 
-    // name must be a single word
+    // name must be a single word 
     if(name.split(" ").length > 1) {
         return res.status(400).send({ status: false, msg: "Please Provide the Valid Abbreviation" });
     }
@@ -117,6 +115,7 @@ catch (err) {
 
 const getCollegeDetails = async (req ,res) => {
     try{
+
         //Extract Query Params into a Variable
         const queryParams = req.query
         

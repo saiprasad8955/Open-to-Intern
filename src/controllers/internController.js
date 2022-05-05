@@ -24,18 +24,18 @@ const isValidObjectId = function (value){
 }
 
 
-const internDetails= async function (req,res){
+const internDetails = async function (req,res){
 
     // Store RequestBody data into requestBody
     const requestBody = req.body;
 
     // Validate the Request Body
-    if( !Object.keys(requestBody).length > 0){
+    if( ! Object.keys(requestBody).length > 0){
         return res.status(400).send({ status:false, message:"Please Enter the College Details" })
     }
 
     // Object Destructing
-    const { name, email, mobile, collegeId } = requestBody;
+    const { name, email, mobile , collegeName, isDeleted } = requestBody;
     
     // Validate the name of College
     if(!isValid(name)){
@@ -73,19 +73,8 @@ const internDetails= async function (req,res){
     }
 
     // Check College Id is Valid or not 
-    if(! collegeId){
+    if(! collegeName){
          return res.status(400).send({ status:false, message:"Please Enter a College Name" })
-    }
-
-    // Validate the ObjectId
-    if(!isValidObjectId(collegeId)){
-        return res.status(400).send({ status:false, message:"Please Enter a Valid College ID" }) 
-    }
-
-    // Check if Wrong College Id Come then data exists or not
-    const wrongClg = await collegeModel.findById(collegeName)
-    if(!wrongClg){
-        return res.status(400).send( { status: false , message: 'College Does Not Exist With this CollegeId'})
     }
 
     // Checking Duplicate Entry of interns
@@ -105,13 +94,25 @@ const internDetails= async function (req,res){
             return res.status(409).send({ status: false, msg: "Mobile Number already exists" });
         }
     }
-
+    
     // isDeleted Should be False       
     if (isDeleted === true) {
         return res.status(400).send({ status: false, msg: "New entries can't be deleted" });
     }
 
-    const internDetails = await internModel.create( requestBody );
+    // Check that College Exists or not 
+    let collegeData = await collegeModel.findOne( { name : collegeName } )
+
+    if (!collegeData) {
+        return res.status(404).send({ status: false, msg: "No College found With This Name , Check Name And Try Again" })
+    }
+
+    const collegeId = collegeData._id
+
+    // Finally the registration of intern is successful
+    let data = { name, mobile, email, collegeId, isDeleted }
+
+    const internDetails = await internModel.create(data);
     return res.status(201).send({ status : true , msg:"Applied For Internship Successfully",data : internDetails }) 
 }
 
