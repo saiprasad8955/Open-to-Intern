@@ -13,7 +13,7 @@ router.post("/functionup/interns",internController.internDetails);
 
 
 // Route For intern Details
-// router.post("functionup/colleges",internController.internDetails);
+router.get("functionup/collegeDetails",internController.internDetails);
 
 
 module.exports = router;

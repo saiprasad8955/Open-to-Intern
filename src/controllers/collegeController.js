@@ -20,6 +20,9 @@ const collegeDetails = async function(req,res){
 try{
     // Store RequestBody data into requestBody
     const requestBody = req.body;
+    
+    console.log(req);
+    console.log(requestBody);
 
     // Validate the Request Body
     if(! Object.keys(requestBody).length > 0) return res.status(400).send({status:false, message:"Please Enter the College Details"})
