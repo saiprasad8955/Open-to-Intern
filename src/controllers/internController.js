@@ -15,7 +15,7 @@ const isValid2 = function(value) {
     const dv = /[a-zA-Z]/;
     if(typeof value !== 'string') return false
     if(dv.test(value)=== false) return false
-    return true
+    return true;
     }
        
 
