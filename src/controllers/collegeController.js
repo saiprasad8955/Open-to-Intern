@@ -80,7 +80,7 @@ try{
     // Duplicate Logo Link
     const duplicateLogo = await collegeModel.findOne({ logoLink: logoLink })
     if (duplicateLogo) {
-        return res.status(400).send({ status: false, msg: 'The logo link which you have entered belongs to some other college' })
+        return res.status(409).send({ status: false, msg: 'The logo link which you have entered belongs to some other college' })
     }
     
     // Duplicate Entries Should Not be Added
@@ -90,13 +90,13 @@ try{
         // First Check for Name of Colleges
         const duplicateNames = await collegeModel.findOne({name:name});
         if(duplicateNames)  {
-             return res.status(400).send({ status: false, msg: "Name is Already Exists" })
+             return res.status(409).send({ status: false, msg: "Name is Already Exists" })
         }
 
          // Then Check for Full Name of Colleges
          const duplicateFullNames = await collegeModel.findOne({fullName:fullName});
          if(duplicateFullNames){
-             return res.status(400).send({ status: false, msg: "College Full Name is Already Exists" })
+             return res.status(409).send({ status: false, msg: "College Full Name is Already Exists" })
             }
     }
 

@@ -59,7 +59,7 @@ const internDetails = async function (req,res){
     }
    
     // Validate the Email of intern
-    if(! isValid(mobile)){
+    if(! isValid(mobile) ){
         return res.status(400).send({ status:false, message:"Please Enter the Mobile Number" }) 
     }
 
@@ -69,7 +69,7 @@ const internDetails = async function (req,res){
     }
 
     // Check College Id is Valid or not 
-    if(isValid(collegeName)){
+    if( isValid(collegeName) ){
          return res.status(400).send({ status:false, message:"Please Enter a College Name" })
     }
 
@@ -79,15 +79,15 @@ const internDetails = async function (req,res){
     if ( duplicateEntries.length !== undefined && duplicateEntries.length > 0 ) {
 
         // Checking Duplicate Email
-        const isEmailUsed = await internModel.find({ email: email });
-        if (isEmailUsed.length !== 0) {
-            return res.status(400).send({ status: false, msg: "Email Already exists" });
+        const isEmailUsed = await internModel.findOne({ email: email });
+        if (isEmailUsed.length !== null) {
+            return res.status(409).send({ status: false, msg: "Email Already exists" });
         }
         
         // Checking Duplicate Mobile    
         const duplicateMobile = await internModel.findOne({ mobile: mobile })
-        if (duplicateMobile) {
-            return res.status(400).send({ status: false, msg: "Mobile Number already exists" });
+        if (duplicateMobile !== null ) {
+            return res.status(409).send({ status: false, msg: "Mobile Number already exists" });
         }
     }
     
