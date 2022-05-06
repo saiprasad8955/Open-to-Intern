@@ -42,11 +42,6 @@ const internDetails = async function (req,res){
         return res.status(400).send({status: false, message: "Name is not a valid name!!!"})
     }
 
-    // // Name Should be in Lowercase
-    // if(name !== name.toLowerCase()) {
-    //     return res.status(400).send({ status: false, msg: "Name should be in  lowercase"})
-    // }
-
     // Validate the Email of intern
     if(!isValid(email)){
         return res.status(400).send({ status:false, message:"Please Enter the Email" }) 
