@@ -81,13 +81,13 @@ const internDetails = async function (req,res){
         // Checking Duplicate Email
         const isEmailUsed = await internModel.find({ email: email });
         if (isEmailUsed.length !== 0) {
-            return res.status(409).send({ status: false, msg: "Email Already exists" });
+            return res.status(400).send({ status: false, msg: "Email Already exists" });
         }
         
         // Checking Duplicate Mobile    
         const duplicateMobile = await internModel.findOne({ mobile: mobile })
         if (duplicateMobile) {
-            return res.status(409).send({ status: false, msg: "Mobile Number already exists" });
+            return res.status(400).send({ status: false, msg: "Mobile Number already exists" });
         }
     }
     
