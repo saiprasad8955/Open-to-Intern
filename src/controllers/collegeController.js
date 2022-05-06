@@ -89,13 +89,13 @@ try{
 
         // First Check for Name of Colleges
         const duplicateNames = await collegeModel.findOne({name:name});
-        if(duplicateNames)  {
+        if(duplicateNames !== null)  {
              return res.status(409).send({ status: false, msg: "Name is Already Exists" })
         }
 
          // Then Check for Full Name of Colleges
          const duplicateFullNames = await collegeModel.findOne({fullName:fullName});
-         if(duplicateFullNames){
+         if(duplicateFullNames !== null){
              return res.status(409).send({ status: false, msg: "College Full Name is Already Exists" })
             }
     }
@@ -118,7 +118,7 @@ catch (err) {
 const getCollegeDetails = async (req ,res) => {
     try{
 
-        //Extract Query Params into a Variable
+        // Extract Query Params into a Variable
         const queryParams = req.query
         
         // Destruct CollegeName from QueryParams
