@@ -69,7 +69,7 @@ const internDetails = async function (req,res){
     }
 
     // Check College Id is Valid or not 
-    if(! collegeName){
+    if(isValid(collegeName)){
          return res.status(400).send({ status:false, message:"Please Enter a College Name" })
     }
 
