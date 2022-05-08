@@ -1,5 +1,4 @@
 const internModel = require("../models/internModel.js");
-const validator = require("validator");
 const mongoose = require("mongoose");
 const collegeModel = require("../models/collegeModel.js");
 
@@ -32,18 +31,19 @@ const internDetails = async function (req,res){
     // Object Destructing
     const { name, email, mobile , collegeName, isDeleted } = requestBody;
     
+    
     // Validate the name of College
-    if(!isValid(name)){
+    if( ! isValid(name)){
         return res.status(400).send({ status:false, message:"Please Enter the College Details" }) 
     }
 
     // Check that the Name Should be String
-    if(!isValid2(name)) {
+    if( ! isValid2(name)) {
         return res.status(400).send({status: false, message: "Name is not a valid name!!!"})
     }
 
     // Validate the Email of intern
-    if(!isValid(email)){
+    if( ! isValid(email)){
         return res.status(400).send({ status:false, message:"Please Enter the Email" }) 
     }
 
@@ -63,8 +63,8 @@ const internDetails = async function (req,res){
         return res.status(400).send({ status:false, message:"Please Enter a Valid Mobile Number" }) 
     }
 
-    // Check College Id is Valid or not 
-    if( isValid(collegeName) ){
+    // Check College Name is Valid or not 
+    if( ! isValid(collegeName) ){
          return res.status(400).send({ status:false, message:"Please Enter a College Name" })
     }
 
@@ -75,7 +75,7 @@ const internDetails = async function (req,res){
 
         // Checking Duplicate Email
         const isEmailUsed = await internModel.findOne({ email: email });
-        if (isEmailUsed.length !== null) {
+        if (isEmailUsed !== null) {
             return res.status(409).send({ status: false, msg: "Email Already exists" });
         }
         

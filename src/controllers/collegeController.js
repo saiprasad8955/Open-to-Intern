@@ -11,9 +11,9 @@ const isValid = function (value){
 
 const isValid2 = function(value) {
     const dv = /[a-zA-Z]/;
-    if(typeof value !== 'string') return false
-    if(dv.test(value)=== false) return false
-    return true
+    if(typeof value !== 'string') return false;
+    if(dv.test(value) === false) return false;
+    return true;
     }
     
 
@@ -24,24 +24,25 @@ try{
     const requestBody = req.body;
     
     // Validate the Request Body
-    if(! Object.keys(requestBody).length > 0) return res.status(400).send({status:false, message:"Please Enter the College Details"})
+    if(! Object.keys(requestBody).length > 0){
+        return res.status(400).send({status:false, message:"Please Enter the College Details"});
+    }
     
     // Object Destructing
     const { name , fullName, logoLink, isDeleted } = requestBody;
 
     // Validate The Name of college
-    if(!isValid(name)){
-        return res.status(400).send({status:false, message:"Please Enter a Valid College Name" })
+    if( ! isValid(name)){
+        return res.status(400).send({status:false, message:"Please Enter College Name" })
     }
 
     // Check that the Name Should be String
-    if(!isValid2(name)) {
-        res.status(400).send({status: false, message: 'Name is not a Valid name'})
-        return
+    if( ! isValid2(name)) {
+        return res.status(400).send({status: false, message: 'Name is not a Valid College Name'})
     }
            
     // Name Should be in Lowercase
-    if(name !== name.toLowerCase()) {
+    if( name !== name.toLowerCase() ) {
         return res.status(400).send({ status: false, msg: "Name should be in lowercase"})
     }
 
@@ -51,25 +52,23 @@ try{
     }
 
     // Validate The Full Name of college
-    if(!isValid(fullName)){
+    if( ! isValid(fullName)){
          return res.status(400).send({status:false, message:"Please Enter a Full Name" })
     }
 
     // Check that the Name Should be String
-    if(!isValid2(fullName)) {
-        res.status(400).send({status: false, message: 'College name is not a valid name!!!'})
-        return
+    if( ! isValid2(fullName)) {
+        return res.status(400).send({status: false, message: 'College name is not a valid name!!!'})
     }
 
     // Check Logolink is Coming or not 
-    if(!isValid(logoLink)) {
+    if( ! isValid(logoLink)) {
         return res.status(400).send({status:false, message:"Logolink is Required" })
     }
 
     // Validate the logoLink should be  Valid Url
-    if(!isValid2(logoLink)) {
-        res.status(400).send({status: false, message: 'LogoLink is not a valid link'})
-        return
+    if( ! isValid2(logoLink)) {
+        return res.status(400).send({status: false, message: 'LogoLink is not a valid link'})
      }
 
     // Validate The Logolink
@@ -88,7 +87,7 @@ try{
     if(duplicate.length !== 0){
 
         // First Check for Name of Colleges
-        const duplicateNames = await collegeModel.findOne({name:name});
+        const duplicateNames = await collegeModel.findOne({ name: name });
         if(duplicateNames !== null)  {
              return res.status(409).send({ status: false, msg: "Name is Already Exists" })
         }
@@ -97,7 +96,7 @@ try{
          const duplicateFullNames = await collegeModel.findOne({fullName:fullName});
          if(duplicateFullNames !== null){
              return res.status(409).send({ status: false, msg: "College Full Name is Already Exists" })
-            }
+           }
     }
 
     // isDeleted should be false
@@ -107,7 +106,7 @@ try{
        
     // Then Finally Create College Details 
     const collegeDetails = await collegeModel.create( requestBody );
-    return res.status(201).send({ status : true , msg:"College Successfully Created" ,data : collegeDetails });
+    return res.status(201).send({ status : true , msg:"College Successfully Created" , data : collegeDetails });
 }
 catch (err) {
     return res.status(500).send({ status: false, err: err.message });
@@ -122,25 +121,25 @@ const getCollegeDetails = async (req ,res) => {
         const queryParams = req.query
         
         // Destruct CollegeName from QueryParams
-        const { collegeName } = req.query
+        const { collegeName } = queryParams;
 
         // Check Query Params are coming or not
         if(! Object.keys(queryParams).length > 0){
-            return res.status(400).send({status:false, message:"Invalid Filters !!!!"});
+            return res.status(400).send({status:false, message:"Invalid Filters !!!! Please Search with College Name"});
         }
 
         // Check College Name is coming or not
-        if(!isValid(collegeName)){
+        if(! isValid( collegeName )){
             return res.status(400).send({status:false, message:"Please Enter a College Name" })
         }
 
         // Check College name is in Lowercase or not
-        if(collegeName !== collegeName.toLowerCase()){
+        if( collegeName !== collegeName.toLowerCase()){
             return res.status(400).send({ status : false , message : "College Name Should Be in Lowercase" });
         }
 
         // College Name Must be a single word
-        if(collegeName.split(" ").length > 1){
+        if( collegeName.split(" ").length > 1 ){
             return res.status(400).send({ status : false, message : "Please Provide the Valid Abbreviation" });
         }
 
@@ -176,7 +175,7 @@ const getCollegeDetails = async (req ,res) => {
     }
 }
 
-module.exports = {collegeDetails,getCollegeDetails};
+module.exports = { collegeDetails, getCollegeDetails };
 
 
 
