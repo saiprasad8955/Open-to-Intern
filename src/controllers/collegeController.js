@@ -164,7 +164,7 @@ const getCollegeDetails = async (req ,res) => {
             name: name,
             fullName: fullName,
             logoLink: logoLink,
-            interests: InternsInCollege.length ? InternsInCollege : {msg:"No-One is applied for Internship in this college"}
+            interns : InternsInCollege.length ? InternsInCollege : {msg:"No-One is applied for Internship in this college"}
         }
 
         // Final Send The Response
@@ -175,7 +175,7 @@ const getCollegeDetails = async (req ,res) => {
     }
 }
 
-module.exports = { collegeDetails, getCollegeDetails };
+module.exports = { collegeDetails, getCollegeDetails }; 
 
 
 
