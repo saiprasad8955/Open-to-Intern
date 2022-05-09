@@ -29,7 +29,7 @@ const internDetails = async function (req,res){
     }
 
     // Object Destructing
-    const { name, email, mobile , collegeName, isDeleted } = requestBody;
+    const { name, email, mobile, collegeName, isDeleted } = requestBody;
     
     
     // Validate the name of College
