@@ -1,12 +1,10 @@
 require('dotenv').config()
 const express = require("express");
-const bodyParser = require("body-parser");
 const route = require("./route/route.js");
-const { default: mongoose } = require("mongoose");
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, })
   .then(() => console.log("MongoDb is connected"))
